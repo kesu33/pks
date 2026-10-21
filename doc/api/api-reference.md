@@ -1,37 +1,20 @@
 # API Reference
 
-Base URL for local development: `http://127.0.0.1:8000`
+Run the backend locally and open `/docs` for FastAPI's interactive API documentation.
 
-Interactive API documentation: `/docs`
+## Current Starter Endpoints
 
-## GET /
+| Method | Path | Purpose |
+|---|---|---|
+| GET | `/` | Basic service information |
+| GET | `/health` | Service/database health check |
+| GET | `/concepts` | List concepts; may accept a topic filter |
+| POST | `/concepts` | Create a concept |
+| GET | `/questions` | List questions |
+| POST | `/answer` | Submit an answer for evaluation |
 
-Returns project identity and status.
+The exact request fields and response formats are defined by the running application and its Pydantic models. Verify them in `/docs` after each API change.
 
-## GET /health
+## Error Handling
 
-Returns a simple health status.
-
-## GET /concepts
-
-Lists all concepts. Optional query `topic`.
-
-## POST /concepts
-
-Creates a concept. Success 201, duplicate 409.
-
-## GET /questions
-
-Lists available questions.
-
-## POST /answer
-
-Submits an answer. Current: exact case-insensitive text match.
-
-## Current Limitations
-
-- No authentication or user-specific attempts.
-- No pagination or versioned API.
-- Questions not managed via public creation endpoint.
-- Correct answers exposed with result.
-- Error response formats not standardized.
+Use appropriate HTTP status codes and avoid returning database credentials, stack traces, or internal secrets to clients.

@@ -1,32 +1,62 @@
-# PKS Documentation Index
+# Physics Knowledge Analysis System (PKS)
 
-**Project:** Physics Knowledge Analysis System (PKS)
-**Target users:** Higher-secondary Physics students and educators
-**Initial stack:** Python, FastAPI, SQLite, pytest
-**Documentation language:** English for technical consistency
+## 1. Project Overview
 
-## 1. Architecture
-- [System Architecture](architecture/system-design.md)
-- [Development Roadmap](architecture/roadmap.md)
+PKS is a higher-secondary Physics learning and knowledge-analysis web application. It supports physics concepts, questions, assessments, and future learning analytics.
 
-## 2. API and Data
-- [API Reference](api/api-reference.md)
-- [Shared Contracts](api/contracts.md)
-- [Database Schema](database/schema.md)
-- [Physics Knowledge Model](database/knowledge-model.md)
+## 2. Current Target Architecture
 
-## 3. Development
-- [Setup Guide](development/setup.md)
-- [AI Agent Workflow](development/ai-agents.md)
-- [Git and Approval Workflow](development/git-workflow.md)
+- Frontend: React + Vite
+- Backend: Python + FastAPI
+- ORM: SQLAlchemy
+- Database: PostgreSQL
+- Schema migrations: Alembic
+- Testing: pytest
+- Initial deployment: local Linux machine
 
-## 4. Quality
-- [Testing Plan](testing/test-plan.md)
-- [Security Guidelines](testing/security.md)
+SQLite is retained as the legacy data source during migration. Do not delete the original SQLite database until PostgreSQL data has been verified and backed up.
 
-## Documentation Rules
-1. Update documentation when behavior or contracts change.
-2. Distinguish implemented features from planned features.
-3. Never merge AI-generated code without human review.
-4. Run automated tests before integration.
-5. Record important architecture decisions.
+## 3. Main Components
+
+```text
+React frontend
+     |
+     | HTTP / JSON
+     v
+FastAPI backend
+     |
+     | SQLAlchemy
+     v
+PostgreSQL database
+```
+
+Alembic manages database schema changes. It must be used for future schema migrations rather than relying on application startup to create production tables.
+
+## 4. Documentation Index
+
+- `architecture/system-design.md` — architecture and boundaries
+- `architecture/roadmap.md` — phased development plan
+- `architecture/decisions.md` — architecture decisions
+- `api/api-reference.md` — API endpoint overview
+- `api/contracts.md` — request and response conventions
+- `database/schema.md` — database tables and relationships
+- `database/knowledge-model.md` — physics knowledge model
+- `development/setup.md` — local Linux setup
+- `development/ai-agents.md` — parallel AI development roles
+- `development/git-workflow.md` — branches, reviews, integration
+- `testing/test-plan.md` — test strategy
+- `testing/security.md` — security practices
+- `deployment/local-linux.md` — local deployment and operations
+
+## 5. Data Migration Safety
+
+1. Back up `data/physics.db`.
+2. Create the PostgreSQL schema with Alembic.
+3. Import SQLite records into PostgreSQL.
+4. Compare record counts and inspect representative records.
+5. Run backend and frontend tests.
+6. Keep the SQLite backup until the new system is confirmed to work.
+
+## 6. Development Rule
+
+AI agents may propose code and tests, but changes to shared contracts, database schema, dependencies, and deployment configuration require human review before integration.

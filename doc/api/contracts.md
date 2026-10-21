@@ -1,68 +1,31 @@
-# Shared Contracts
+# API Contracts
 
-## 1. Concept
+## General Conventions
 
-    {
-      "id": 1,
-      "topic": "Mechanics",
-      "name": "Newton's Second Law",
-      "description": "Net force equals mass times acceleration.",
-      "formula": "F = ma"
-    }
+- JSON request and response bodies
+- Explicit request validation
+- Stable field names
+- Clear HTTP status codes
+- No database credentials or internal stack traces in responses
 
-## 2. Question (planned)
+## Concepts
 
-    {
-      "id": 1,
-      "type": "mcq",
-      "topic": "Mechanics",
-      "prompt": "What is the net force?",
-      "options": [{"id":"A","text":"3 N"},{"id":"B","text":"6 N"}],
-      "correct_option_id": "B",
-      "explanation": "F = ma."
-    }
+A concept should have a name and may include a description and topic. The backend remains responsible for validating required fields and uniqueness rules.
 
-## 3. Answer Submission (planned)
+## Questions
 
-    { "question_id": 1, "answer": "B" }
+Question responses should expose only the fields needed by the client. For MCQs, options should be represented as structured data. Do not reveal correct answers in student-facing question listings if the assessment workflow requires answer secrecy.
 
-## 4. Assessment Result (planned)
+## Answer Submission
 
-    {
-      "question_id": 1,
-      "is_correct": true,
-      "score_awarded": 1.0,
-      "max_score": 1.0,
-      "feedback": "Correct.",
-      "verification_status": "verified"
-    }
+The answer endpoint should define:
+- Question identifier or question context
+- Submitted answer
+- Evaluation result
+- Feedback, when available
 
-## 5. Numerical Problem (planned)
+The current starter may use simple exact-match evaluation. That is not sufficient for general written or numerical physics answers; richer evaluation must be implemented and tested separately.
 
-    {
-      "topic": "Mechanics",
-      "known_values": [
-        {"symbol":"m","value":2,"unit":"kg"},
-        {"symbol":"a","value":3,"unit":"m/s^2"}
-      ],
-      "unknown": "F"
-    }
+## Compatibility
 
-## 6. Numerical Solution (planned)
-
-    {
-      "equation": "F = m*a",
-      "substitution": "F = 2 kg * 3 m/s^2",
-      "result": {"value":6,"unit":"N"},
-      "steps": ["Identify known values","Apply Newton's second law"],
-      "verification_status": "verified"
-    }
-
-## 7. Contract Rules
-
-- JSON field names use snake_case.
-- IDs are stable and unique.
-- Quantities include units.
-- Errors consistent machine-readable structure in future.
-- Date/time ISO 8601 with timezone.
-- Contract changes require tests and review.
+When changing a shared request or response schema, update backend validation, frontend usage, tests, and this document in the same reviewed change.

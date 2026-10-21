@@ -1,32 +1,36 @@
 # Database Schema
 
-## Current MVP Schema
+## Target Database
+
+PostgreSQL is the target database. SQLAlchemy models define application mappings, while Alembic revisions manage schema evolution.
+
+## Initial Tables
 
 ### concepts
-id INTEGER PK autoincrement, topic TEXT NOT NULL, name TEXT NOT NULL UNIQUE, description TEXT NOT NULL, formula TEXT nullable.
+
+Expected fields:
+- `id`: primary key
+- `name`: concept name
+- `description`: explanation
+- `topic`: topic or chapter classification
 
 ### questions
-id INTEGER PK autoincrement, question TEXT NOT NULL, options TEXT JSON array, correct_answer TEXT NOT NULL, explanation TEXT NOT NULL.
 
-Tables created at startup; no migration framework yet.
+Expected fields:
+- `id`: primary key
+- `concept_id`: optional or required relationship to a concept
+- `question`: question text
+- `options`: structured options for MCQs
+- `answer`: expected answer
+- `question_type`: question format, if implemented
 
-## Recommended Future Schema
+Always check `app/models.py` and the active Alembic revision for the actual schema.
 
-topics, concepts, concept_relations, formulas, questions, question_options, assessment_attempts, attempt_answers, problem_solutions.
+## Migration Rules
 
-## Data Integrity
-
-- Foreign keys for relationships.
-- Indexes for common searches.
-- Transactions for multi-step writes.
-- Migrations for schema changes.
-- No secrets in DB.
-
-## Migration Strategy
-
-1. Agree schema and tool.
-2. Write versioned migration.
-3. Test on temp DB.
-4. Backup before migration.
-5. Apply and verify.
-6. Document rollback.
+1. Back up SQLite before migration.
+2. Apply schema migrations before importing records.
+3. Preserve primary keys where possible.
+4. Check foreign-key integrity and row counts after import.
+5. Do not delete the source database until the import is verified.
+6. Create a new Alembic revision for future schema changes.

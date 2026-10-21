@@ -1,24 +1,33 @@
-# Testing and Quality Plan
+# Test Plan
 
-## Levels
-- Unit: scoring, conversions, validation, prerequisites.
-- API: status codes, payloads, validation, errors.
-- Integration: service-to-DB, transactions.
-- Regression: keep tests for bugs.
-- Scientific verification: compare with approved references.
+## Backend Tests
 
-## Current Commands
-    source .venv/bin/activate
-    pytest -q
+- Health endpoint responds correctly.
+- Concepts can be listed and created with valid input.
+- Invalid concept input is rejected.
+- Questions return the documented schema.
+- Answer evaluation handles valid and invalid submissions.
+- Database failures do not expose secrets.
 
-## Minimum Coverage
-Concepts: listing, creation, filtering, duplicates, empty/oversized, persistence.
-Questions: empty collection, options structure, correct/incorrect, unknown id, invalid submission.
-Problem solving (future): correct answer, unit conversion, dimensional mismatch, zero/negative, missing vars, ambiguous, unsupported, precision.
-Assessment (future): scoring, partial credit, unanswered, duplicates, confidentiality, rubric.
+## Database Tests
 
-## Definition of Done
-Requirements met, tests cover success/failure, tests pass, contracts/docs updated, no unrelated changes, human review complete.
+- Alembic migrations work on a clean test database.
+- Foreign keys and uniqueness constraints behave as intended.
+- SQLite import preserves expected IDs and values.
+- Source and target row counts are compared.
+- Re-running the import does not create unintended duplicates.
 
-## CI Recommendation
-Add CI after repo established: install deps, lint, tests, report. CI != scientific review.
+## Frontend Tests
+
+- Concepts and questions load successfully.
+- Loading, empty, and API error states are visible.
+- Forms validate required fields.
+- API response changes are handled safely.
+
+## Test Data Isolation
+
+Use a dedicated test database or temporary test database. Tests must not rely on existing local production-like records or fixed names in a persistent database.
+
+## Release Gate
+
+Run the full test suite, review migration scripts, check the frontend build, and verify the app manually before approving a release.

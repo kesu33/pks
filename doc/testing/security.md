@@ -1,47 +1,29 @@
-# Security and Privacy Guidelines
+# Security Notes
 
-## Development
-- Bind dev server to localhost.
-- No .env/credentials/keys in Git.
-- Keep venv and db out of Git.
-- Update deps deliberately.
+## Secrets
 
-## API
-- Auth where user data exists.
-- Authorization on private resources.
-- Validate payload types/sizes/ranges.
-- Rate limiting where appropriate.
-- CORS narrowly configured.
-- HTTPS in deployment.
-- Safe error messages.
+- Keep database passwords and API secrets out of source control.
+- Add local `.env` files to `.gitignore`.
+- Do not include credentials in logs, screenshots, test fixtures, or documentation.
 
 ## Database
-- Parameterized SQL.
-- Constraints and transactions.
-- Backup before migrations.
-- No db files via static serving.
-- Retention/deletion rules.
 
-## AI
-- Treat user text and docs as untrusted.
-- Validate model outputs via schema.
-- No executing generated code/SQL without review.
-- Verify calculations independently.
-- Mark uncertain answers honestly.
-- Server-side credentials.
+- Use a dedicated application database user.
+- Grant only the permissions required by the app.
+- Back up the database and periodically test restoration.
+- Do not expose PostgreSQL directly to untrusted networks for local development.
 
-## Educational Integrity
-- Keep answer keys private during assessments.
-- Explain scoring.
-- Educator review of auto-grading.
-- Track sources/corrections.
+## API
 
-## Learner Privacy
-- Collect only necessary data.
-- Define access/retention/deletion.
-- Avoid logging full answers.
-- Restrict identifiable records.
-- Follow privacy/child-protection rules.
+- Validate all incoming data.
+- Add authentication and authorization before exposing student-specific records.
+- Avoid returning stack traces or internal database details.
+- Apply request size limits and rate limiting before public deployment.
 
-## Release Gate
-No public deploy until auth, authorization, validation, logging, backup, recovery reviewed.
+## Student Data
+
+Before storing identifiable student data, define data minimization, access control, retention, and deletion policies.
+
+## Deployment
+
+The local development server is not a production security boundary. Before public deployment, configure HTTPS, trusted hosts, production settings, monitoring, and a reviewed backup/restore process.

@@ -1,37 +1,26 @@
-# Git and Human Approval Workflow
+# Git Workflow
 
-## Branch Naming
-main, feat/knowledge-base, feat/assessment, feat/problem-solver, test/integration.
+## Branches
 
-## Initial
-    cd /mnt/external/proj/pks
-    git init
-    git add .
-    git commit -m "Initial PKS starter"
+Use a short-lived branch per task, for example:
 
-## Feature branch
-    git switch -c feat/knowledge-base
+- `feat/concept-api`
+- `feat/react-concepts`
+- `db/postgres-migration`
+- `test/api-regression`
 
-## Review
-    git status
-    git diff --check
-    git diff
-    pytest -q
+## Change Process
 
-## Worktrees
-    git worktree add ../pks-knowledge -b feat/knowledge-base
-    git worktree add ../pks-assessment -b feat/assessment
-    git worktree add ../pks-solver -b feat/problem-solver
-    git worktree add ../pks-quality -b test/integration
+1. Start from the latest agreed integration branch.
+2. Make a small, focused change.
+3. Run relevant tests and formatting checks.
+4. Review the diff and remove secrets or local data.
+5. Open a pull request or ask for human review.
+6. Merge only after contract and regression checks pass.
 
-## PR Checklist
-- Scope matches.
-- No secrets/db files.
-- Contracts compatible.
-- Tests pass.
-- Scientific assumptions reviewed.
-- Docs updated.
-- Human approved.
+## Database Migrations
 
-## Recovery
-Use git status/diff before discarding. Avoid reset --hard unless intended.
+- Give each schema change its own Alembic revision.
+- Review generated migration scripts before applying them.
+- Test upgrade behavior against a disposable database.
+- Document rollback limitations; data migrations may not be reversible.

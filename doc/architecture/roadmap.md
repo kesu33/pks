@@ -1,60 +1,50 @@
 # Development Roadmap
 
-## Phase 0 — Working Foundation
-- [x] FastAPI application
-- [x] SQLite database
-- [x] Concept endpoints
-- [x] Sample MCQ endpoint
-- [x] Basic answer checking
-- [ ] Confirm a clean test run
-- [ ] Establish CI and branch protection
+## Phase 1 — Local Foundation
 
-## Phase 1 — Reliable Domain Model
-- Define concept, formula, unit and question schemas.
-- Add stable identifiers and timestamps.
-- Add migrations before changing production schemas.
-- Validate formula and answer data.
-- Add duplicate, invalid-input and persistence tests.
+- Set up the Python virtual environment.
+- Run FastAPI locally.
+- Establish automated tests.
+- Back up the existing SQLite database.
 
-## Phase 2 — Assessment
-- Support multiple-choice questions.
-- Add written-answer rubric data structures.
-- Record student attempts and score breakdowns.
-- Separate marking policy from HTTP endpoint code.
-- Test partial credit and unanswered questions.
+## Phase 2 — PostgreSQL Migration
 
-## Phase 3 — Numerical Problem Solving
-- Define structured problem inputs and outputs.
-- Parse quantities with units.
-- Check dimensional consistency.
-- Solve supported equation types.
-- Independently verify numerical results.
-- Return understandable solution steps.
+- Install and configure PostgreSQL.
+- Create the application database and least-privilege user.
+- Install SQLAlchemy, a PostgreSQL driver, and Alembic.
+- Apply the initial Alembic migration.
+- Import SQLite records while preserving record IDs.
+- Compare source and destination data.
 
-## Phase 4 — Knowledge Relationships
-- Add prerequisite and related-concept links.
-- Prevent invalid or cyclic prerequisite relationships.
-- Add topic and concept search.
-- Build prerequisite-based learning recommendations.
+## Phase 3 — React Frontend
 
-## Phase 5 — AI Assistance
-- Add a provider-neutral model adapter.
-- Require structured outputs and schema validation.
-- Ground generated explanations in approved materials.
-- Track model, prompt version and evaluation results.
-- Clearly label uncertain or unverified answers.
+- Run the React + Vite development server.
+- Connect the frontend to FastAPI.
+- Add loading, empty, and error states.
+- Test the concepts and questions screens.
 
-## Phase 6 — Student Experience
-- Build a web interface.
-- Add accounts only after authentication design and tests.
-- Track learning progress and weak topics.
-- Support Bengali and English content.
-- Add accessible and mobile-friendly layouts.
+## Phase 4 — Assessment
 
-## Release Criteria
-- Tests pass in a clean environment.
-- API and data contracts are documented.
-- Security checks are complete.
-- Database migrations are repeatable.
-- Human reviewer approves the changes.
-- Known limitations are documented.
+- Add validated MCQ submissions.
+- Add written answers and numerical problem-solving workflows.
+- Store attempts and results.
+- Design transparent scoring and feedback rules.
+
+## Phase 5 — Learning Analytics
+
+- Track concept-level performance.
+- Identify knowledge gaps.
+- Recommend practice questions.
+- Validate analytics against representative test cases.
+
+## Phase 6 — Production Preparation
+
+- Add authentication and role-based authorization.
+- Configure structured logging and error handling.
+- Add backup and restore procedures.
+- Review privacy, security, accessibility, and performance.
+- Establish deployment and rollback procedures.
+
+## Release Gate
+
+A phase is complete only after its tests pass, documentation is updated, data integrity is checked where applicable, and a human reviewer approves the change.
